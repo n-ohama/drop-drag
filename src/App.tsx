@@ -11,16 +11,10 @@ import { useState } from "react";
 
 function App() {
   const [items, setItem] = useState(["item0", "item1", "item2"]);
-
   const onDragEnd = (result: DropResult, provided: ResponderProvided) => {
-    const itemList = [...items];
-    const deleteItem = itemList.splice(result.source.index, 1);
-    console.log(deleteItem);
-    if (result.destination) {
-      itemList.splice(result.destination.index, 0, deleteItem[0]);
-    }
-    // items.splice(result.destination.index, 0, remove[0]);
-    setItem(itemList);
+    const remove = items.splice(result.source.index, 1);
+    console.log(remove);
+    items.splice(result.destination.index, 0, remove[0]);
   };
 
   return (
@@ -29,21 +23,43 @@ function App() {
         <Droppable droppableId="droppable">
           {(provided) => (
             <div {...provided.droppableProps} ref={provided.innerRef}>
-              {items.map((item, index) => (
-                <Draggable key={item} draggableId={item} index={index}>
-                  {(provided) => (
-                    <div
-                      className="item"
-                      ref={provided.innerRef}
-                      {...provided.draggableProps}
-                      {...provided.dragHandleProps}
-                    >
-                      {item}
-                    </div>
-                  )}
-                </Draggable>
-              ))}
-
+              {provided.placeholder}
+              <Draggable draggableId="item1" index={1}>
+                {(provided) => (
+                  <div
+                    className="item"
+                    ref={provided.innerRef}
+                    {...provided.draggableProps}
+                    {...provided.dragHandleProps}
+                  >
+                    item1
+                  </div>
+                )}
+              </Draggable>
+              <Draggable draggableId="item2" index={2}>
+                {(provided) => (
+                  <div
+                    className="item"
+                    ref={provided.innerRef}
+                    {...provided.draggableProps}
+                    {...provided.dragHandleProps}
+                  >
+                    item2
+                  </div>
+                )}
+              </Draggable>
+              <Draggable draggableId="item3" index={3}>
+                {(provided) => (
+                  <div
+                    className="item"
+                    ref={provided.innerRef}
+                    {...provided.draggableProps}
+                    {...provided.dragHandleProps}
+                  >
+                    item3
+                  </div>
+                )}
+              </Draggable>
               {provided.placeholder}
             </div>
           )}
